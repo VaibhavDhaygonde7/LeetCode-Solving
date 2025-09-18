@@ -86,11 +86,45 @@ class Solution2{
 
 }; 
 
+class Solution3 {
+public:
+    bool canPartition(vector<int>& nums) {
+        int totalSum = 0; 
+        for(int n : nums) totalSum += n; 
+        
+        if(totalSum % 2 != 0) return false; 
+
+        return subsetWithSumK(nums, totalSum/2); 
+
+    }
+
+    bool subsetWithSumK(vector<int>& nums, int target){
+        int totalSum = target*2; 
+
+        vector<bool> curr(totalSum + 1); 
+        vector<bool> prev(totalSum + 1); 
+
+        curr[target] = true; 
+
+        for(int i = nums.size()-1; i>=0; i--){
+            for(int j = 0; j <= totalSum; j++){
+                prev[j] = curr[j]; 
+                if(j + nums[i] <= totalSum){
+                    prev[j] = prev[j] || curr[j + nums[i]]; 
+                }
+            }
+            curr = prev; 
+        }
+
+        return prev[0]; 
+    }
+};
+
 int main(){
 
     vector<int> nums = {1,2,3,4}; 
 
-    Solution2 s = Solution2(); 
+    Solution3 s = Solution3(); 
 
     if(s.canPartition(nums)){
         cout << "Yay" << endl; 
