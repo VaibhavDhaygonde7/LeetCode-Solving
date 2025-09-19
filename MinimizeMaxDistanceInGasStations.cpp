@@ -36,11 +36,11 @@ class Solution {
 
         int numOfNodes = K; 
 
-        // traversal(head); 
+        traversal(head); 
 
         while(numOfNodes > 0){
             numOfNodes -= insertAtMaxDistance(head); 
-            // traversal(head); 
+            traversal(head); 
         }
 
         return maxDistance(head) ; 
@@ -68,17 +68,24 @@ class Solution {
                 maxDistanceNode = ptr; 
                 secondMaxDistance = maxDistance; 
                 maxDistance = ptr->next->val - ptr->val; 
-                
+            }
+            else{
+                int instantDistance = ptr->next->val - ptr->val; 
+                secondMaxDistance = max(secondMaxDistance, instantDistance); 
             }
             ptr = ptr->next; 
         }   
-
+        // cout << endl;
         int i = 1; 
 
-        while(maxDistance/i >= secondMaxDistance){
-            i++; 
+        // cout << maxDistance << " " << secondMaxDistance << endl; 
+        if(secondMaxDistance != 0){
+            while(maxDistance/i >= secondMaxDistance){
+                i++; 
+            }
         }
-
+        else i = 2; 
+        // cout << endl; 
         // cout << i << " " << endl; 
 
         int numOfNodes = i-1; 
@@ -98,7 +105,6 @@ class Solution {
             ptr->next = temp; 
             ptr = ptr->next; 
         }
-         
         return numOfNodes; 
     }
 
@@ -131,7 +137,7 @@ class Solution {
 
 int main(){
 
-    vector<int> nums = {1,2,3,4,5}; 
+    vector<int> nums = {0,10,20}; 
 
     Solution s = Solution(); 
 
